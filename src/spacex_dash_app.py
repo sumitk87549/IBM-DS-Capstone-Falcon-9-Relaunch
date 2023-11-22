@@ -41,7 +41,7 @@ app.layout = html.Div(children=[html.H1('SpaceX Launch Records Dashboard',
 
                                 html.P("Payload range (Kg):"),
                                 # TASK 3: Add a slider to select payload range
-                                dcc.RangeSlider(id='payload-slider',min=0, max=10000, step=1000, marks={0:'0',100:'100'},value=[min_payload,max_payload]),
+                                dcc.RangeSlider(id='payload-slider',min=0, max=10000, step=1000, marks={0:'0',2500:'2500',5000:'5000',7500:'7500'},value=[min_payload,max_payload]),
 
                                 # TASK 4: Add a scatter chart to show the correlation between payload and launch success
                                 html.Div(dcc.Graph(id='success-payload-scatter-chart')),
@@ -79,11 +79,11 @@ def udpate_slider_container(enteredSite, sliderValue):
     filter_p = spacex_df[spacex_df['Payload Mass (kg)'] >= sliderValue[0]]
     filter_p = filter_p[filter_p['Payload Mass (kg)'] <= sliderValue[1]]
     if enteredSite == 'All':
-        fig = px.scatter(filter_p, x='Payload Mass (kg)',y='class',color='Booster Version Category',title='Total Successful launches by Launch Sites')
+        fig = px.scatter(filter_p, x='Payload Mass (kg)',y='class',color='Booster Version Category',title='Correlation between Payload and Success for all Sites')
         return fig
     else:
         filter_s = filter_p[filter_p['Launch Site'] == enteredSite]
-        fig = px.scatter(filter_s, x='Payload Mass (kg)',y='class',color='Booster Version Category',title='Total Successful launches by Launch Sites')
+        fig = px.scatter(filter_s, x='Payload Mass (kg)',y='class',color='Booster Version Category',title='Correlation between Payload and Success for '+str(enteredSite))
         return fig
         
         
